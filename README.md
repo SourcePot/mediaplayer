@@ -24,7 +24,7 @@ Technically a playlist is a collection of entries within the same Group and Fold
 Everything at Datapool is based on entries (multi-dimensional arrays) with a common structure of first level array keys Source, Group, Folder, Name, EntryId etc.
 The value of entry\[\'Source\'\] is equivalent to the database table, the other keys are equivalent to the database columns.
 
-Then the web page is loading, all videos of the playlist are copied into the www-temporary-directory.
+While the web page is loading, all videos of the playlist are copied into the www-temporary-directory.
 The corresponding file names with locations are presented on the webpage as href-attributes of hidden a-tags. 
 Inline javascript collects all file names with locations from the a-tags and loads the first file into the src-tag of the video player.
 When a video is finished, a new video is loaded into the player.
