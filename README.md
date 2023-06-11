@@ -19,3 +19,10 @@ Technically a playlist is a collection of entries within the same Group and Fold
 
 Everything at Datapool is based on entries (multi-dimensional arrays) with a common structure of first level array keys Source, Group, Folder, Name, EntryId etc.
 The value of entry\[\'Source\'\] is equivalent to the database table, the other keys are equivalent to the database columns.
+
+## Background information
+The class MediaPlayer.php will be instantiated by Datappol\'s Root.php.
+Using the Datapool web application, when MediaPlayer is selected Root.php will call the *run* method of *SourcePot\MediaPlayer\MediaPlayer*.
+The run method creates the html code enveloped by the web page\'s main-tags.
+The file content of the MediaPlayer.js and MediaPlayer.css files is loaded into the webpage as inline css and js code.
+This is necessary because these files are not located in the www-directory.
