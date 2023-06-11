@@ -1,0 +1,12 @@
+{
+	"name":"sourcepot/mediaplayer",
+	"type":"library",
+	"description":"Mediaplayer App for Datapool PHP framework",
+	"keywords":["video"],
+	"homepage":"https://datapool.info",
+	"license":"AGPL-3.0-or-later",
+	"authors":[{"name":"Carsten Wallenhauer","email":"admin@datapool.info"}],
+	"require":{
+		"php":">=8.0"
+	}
+}
