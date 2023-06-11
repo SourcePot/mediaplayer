@@ -4,5 +4,7 @@ MediaPlayer is an App for Datapool which adds a video playlist feature to the we
 ![Web page screenshot](./assets/sample-playlist.png)
 ## How to use it?
 Datapool stores videos as well as other media as entries in the database table *multimedia*. The video files themself are stored in the *filespace* folder. Any video from *multimedia* can be linked to MediaPlayer playlists.
+
 Playlists are organised within Groups and Folders. Technically a playlist is a collection of entries within the same Group and Folder each pointing to a video entry.
+
 Keeping in mind that everything at Datapool is based on entries (multi-dimensional arrays) with a common structure of first level array keys Source, Group, Folder, Name, EntryId etc.   
