@@ -3,8 +3,9 @@ MediaPlayer is an App which adds a video playlist feature to the Datapool web ap
 The App is added as a web page within the category *Apps*. It employs the Datapool App interface and the motivation was to use this App as a test case for the App interface.
 
 ## The user interface (web page)
-The player runs all videos of the playlist in a loop in descending or ascending order.
-The direction is selected through the play buttons below the player left and right.
+After a playlist was created whithin the selected Group and Folder it can be played in a loop in descending or ascending order.
+Clicking one of the two play buttons buttons below the player will start the loop.
+The direction is descending by clicking the left button and ascending by clicking the right button.
 
 ![Web page screenshot](./assets/sample-playlist.png)
 
@@ -26,5 +27,6 @@ The value of entry\[\'Source\'\] is equivalent to the database table, the other 
 The class MediaPlayer.php will be instantiated by Datappol\'s Root.php.
 Using the Datapool web application, when MediaPlayer is selected Root.php will call the *run* method of *SourcePot\MediaPlayer\MediaPlayer*.
 The run method creates the html code enveloped by the web page\'s main-tags.
-The file content of the MediaPlayer.js and MediaPlayer.css files is loaded into the webpage as inline css and js code.
-This is necessary because these files are not located in the www-directory.
+The file content of MediaPlayer.js and MediaPlayer.css files is loaded into the webpage as inline css and js code.
+This is necessary because these files are not located in the www-directory. 
+When installed they will be located in a vendor subdirectory.
