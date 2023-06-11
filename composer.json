@@ -8,5 +8,10 @@
 	"authors":[{"name":"Carsten Wallenhauer","email":"admin@datapool.info"}],
 	"require":{
 		"php":">=8.0"
+	},
+	"autoload":{
+		"psr-4":{
+			"SourcePot\\MediaPlayer\\":"src"
+		}
 	}
 }
