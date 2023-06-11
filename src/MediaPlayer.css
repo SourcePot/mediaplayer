@@ -1,0 +1,42 @@
+button.play{
+	clear:none;
+	width:20%;
+	margin:0;
+	padding:0;
+	font-size:1.2em;
+}
+button.playlist-select{
+	clear:both;
+	margin:0 0 0 10px;
+}
+p.play{
+	clear:none;
+	width:60%;
+	margin:0;
+	padding:0;
+	font-size:1.1em;
+	text-align:center;
+}
+p.playlist{
+	font-size:1.5em;
+	margin:10px;
+}
+ol.playlist{
+	margin:0 0 2em 10px;
+}
+div.play-btn-wrapper{
+	float:left;
+	clear:both;
+	width:100%;
+}
+a.playlist{
+	float:left;
+	clear:both;
+	line-height:2em;
+	margin:0 2em;
+	display:none;
+}
+video.mediaplayer{
+	min-width:400px;
+	margin:0;
+}
