@@ -9,9 +9,9 @@ The direction is descending by clicking the left button and ascending by clickin
 
 ![Web page screenshot](./assets/sample-playlist.png)
 
-The new video will be loaded into the player when the previous video is finished. 
+Videos can be skipped by clicking the play button again.
 
-## How to use it?
+## How does it work?
 Datapool stores videos as well as other media as entries in the database table *multimedia*.
 The video files themself are stored in the *filespace* folder.
 Any video from *multimedia* can be linked to a MediaPlayer playlist entry.
@@ -22,6 +22,11 @@ Technically a playlist is a collection of entries within the same Group and Fold
 
 Everything at Datapool is based on entries (multi-dimensional arrays) with a common structure of first level array keys Source, Group, Folder, Name, EntryId etc.
 The value of entry\[\'Source\'\] is equivalent to the database table, the other keys are equivalent to the database columns.
+
+Then the web page is loading, all videos of the playlist are copied into the www-temporary-directory.
+The corresponding file names with locations are presented on the webpage as href-attributes of hidden a-tags. 
+Inline javascript collects all file names with locations from the a-tags and loads the first file into the src-tag of the video player.
+When a video is finished, a new video is loaded into the player.
 
 ## Background information
 The class MediaPlayer.php will be instantiated by Datappol\'s Root.php.
