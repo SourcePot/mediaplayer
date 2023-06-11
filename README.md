@@ -4,8 +4,10 @@ The App is added as a web page within the category *Apps*. It employs the Datapo
 
 ## The user interface (web page)
 The player runs all listed videos of the playlist in a loop in ascending or descending order.
-The direction is selected through the play buttons. 
+The direction is selected through the play buttons.
+
 ![Web page screenshot](./assets/sample-playlist.png)
+
 The new video will be loaded into the player when the previous video is finished. 
 
 ## How to use it?
