@@ -51,6 +51,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 			if (empty($selector['Folder'])){
 				$html.=$this->getPlaylistIndex(array('selector'=>$selector));
 			} else {
+                $selector['disableAutoRefresh']=TRUE;
 				$settings=array('method'=>'getPlaylist','classWithNamespace'=>__CLASS__);
 				$html.=$this->oc['SourcePot\Datapool\Foundation\Container']->container('MediaPlayer settings','generic',$selector,$settings,array('style'=>array('width'=>'auto','clear'=>'left')));
 				$html.=$this->getVideoContainer(array('selector'=>$selector));
@@ -85,7 +86,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$selector=array('Source'=>$this->oc['SourcePot\Datapool\GenericApps\Multimedia']->getEntryTable(),'Type'=>'%video%');
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector) as $mediaEntry){
 			$key=$mediaEntry['Source'].$s.$mediaEntry['EntryId'];
-			$options[$key]=$mediaEntry['Group'].' &rarr; '.$mediaEntry['Folder'].' &rarr; '.$mediaEntry['Name'];
+			$options[$key]=$mediaEntry['Name'].' &rarr; '.$mediaEntry['Folder'].' &rarr; '.$mediaEntry['Group'];
 		}
 		return $options;
 	}
