@@ -124,7 +124,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		// medie player
 		$sourceArr=array('tag'=>'source','id'=>'player-source','src'=>$firstArr['src'],'type'=>$firstArr['type']);
 		$matrix['playerHtml']['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($sourceArr);
-		$videoArr=array('tag'=>'video','element-content'=>$matrix['playerHtml']['html'],'keep-element-content'=>TRUE,'class'=>'mediaplayer','id'=>'player','controls'=>TRUE,'title'=>'Use the provided play buttons below to play the whole play list');
+		$videoArr=array('tag'=>'video','element-content'=>$matrix['playerHtml']['html'],'keep-element-content'=>TRUE,'class'=>'mediaplayer','id'=>'player','controls'=>TRUE);
 		$matrix['playerHtml']['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($videoArr);
 		// media player control
 		$playBtn=array('tag'=>'button','callingClass'=>__CLASS__,'callingFunction'=>__FUNCTION__,'class'=>'play','keep-element-content'=>TRUE);
@@ -143,7 +143,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$cntrWrapper=array('tag'=>'div','element-content'=>$matrix['cntrHtml']['html'],'keep-element-content'=>TRUE,'class'=>'play-btn-wrapper');
 		$matrix['cntrHtml']['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($cntrWrapper);
 		// finalizing
-		$html=$this->oc['SourcePot\Datapool\Tools\HTMLbuilder']->table(array('matrix'=>$matrix,'keep-element-content'=>TRUE,'caption'=>'Player','hideKeys'=>TRUE,'hideHeader'=>TRUE));
+		$html=$this->oc['SourcePot\Datapool\Tools\HTMLbuilder']->table(array('matrix'=>$matrix,'keep-element-content'=>TRUE,'caption'=>'Player (use play buttons below to start playing the whole play list)','hideKeys'=>TRUE,'hideHeader'=>TRUE));
 		return $html;
 	}
 
