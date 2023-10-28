@@ -37,6 +37,6 @@ a.playlist{
 	display:none;
 }
 video.mediaplayer{
-	min-width:400px;
+    width:600px;
 	margin:0;
 }

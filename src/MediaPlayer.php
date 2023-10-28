@@ -53,7 +53,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 			} else {
                 $selector['disableAutoRefresh']=TRUE;
 				$settings=array('method'=>'getPlaylist','classWithNamespace'=>__CLASS__);
-				$html.=$this->oc['SourcePot\Datapool\Foundation\Container']->container('MediaPlayer settings','generic',$selector,$settings,array('style'=>array('width'=>'auto','clear'=>'left')));
+				$html.=$this->oc['SourcePot\Datapool\Foundation\Container']->container('MediaPlayer settings container','generic',$selector,$settings,array('style'=>array('width'=>'auto','clear'=>'left')));
 				$html.=$this->getVideoContainer(array('selector'=>$selector));
 			}
 			$html.=$this->embedCss();
