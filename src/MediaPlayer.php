@@ -83,7 +83,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	public function getMediaOptions(){
 		$options=array(''=>'Please select...');
 		$s=$this->oc['SourcePot\Datapool\Tools\MiscTools']->getSeparator();
-		$selector=array('Source'=>$this->oc['SourcePot\Datapool\GenericApps\Multimedia']->getEntryTable(),'Type'=>'%video%');
+		$selector=array('Source'=>$this->oc['SourcePot\Datapool\GenericApps\Multimedia']->getEntryTable(),'Params'=>'%video%');
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector) as $mediaEntry){
 			$key=$mediaEntry['Source'].$s.$mediaEntry['EntryId'];
 			$options[$key]=$mediaEntry['Name'].' &rarr; '.$mediaEntry['Folder'].' &rarr; '.$mediaEntry['Group'];
@@ -105,8 +105,8 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$firstArr=FALSE;
 		$matrix=array('playerHtml'=>array('html'=>''),'cntrHtml'=>array('html'=>''),'aHtml'=>array('html'=>''));
 		$selector=$this->mediaPlayerEntryTemplate($arr);
-		$selector['EntryId']='%'.$selector['EntryId'];
-		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector,FALSE,'Read','EntryId',TRUE) as $playListEntry){
+		$selector['EntryId']=FALSE;
+        foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector,FALSE,'Read','EntryId',TRUE) as $playListEntry){
 			$mediaEntryArr=explode($s,$playListEntry['Content']['Media']);
 			$mediaEntry=array('Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]);
 			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,TRUE);
@@ -120,7 +120,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 				$matrix['aHtml']['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element($videoArr);
 			}
 		}
-		if (empty($firstArr)){return '';}
+        if (empty($firstArr)){return '';}
 		// medie player
 		$sourceArr=array('tag'=>'source','id'=>'player-source','src'=>$firstArr['src'],'type'=>$firstArr['type']);
 		$matrix['playerHtml']['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($sourceArr);
