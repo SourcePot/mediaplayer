@@ -93,7 +93,6 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 
 	private function mediaPlayerEntryTemplate($arr){
 		$entry=$arr['selector'];
-		$entry['Type']=$entry['Source'].' array';
 		$entry['Name']='Play list entry';
 		$entry=$this->oc['SourcePot\Datapool\Tools\MiscTools']->addEntryId($entry,array('Source','Group','Folder','Name'),'0','',FALSE);
 		return $entry;
