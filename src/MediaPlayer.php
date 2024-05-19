@@ -103,9 +103,9 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$tmpDir=$this->oc['SourcePot\Datapool\Foundation\Filespace']->getTmpDir();
 		$firstArr=FALSE;
 		$matrix=array('playerHtml'=>array('html'=>''),'cntrHtml'=>array('html'=>''),'aHtml'=>array('html'=>''));
-		$selector=$this->mediaPlayerEntryTemplate($arr);
-		$selector['EntryId']=FALSE;
-        foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector,FALSE,'Read','EntryId',TRUE) as $playListEntry){
+		$mediaPlayerEntry=$this->mediaPlayerEntryTemplate($arr);
+		$selector=array('Source'=>$mediaPlayerEntry['Source'],'EntryId'=>'%'.$this->oc['SourcePot\Datapool\Foundation\Database']->getOrderedListKeyFromEntryId($mediaPlayerEntry['EntryId']));
+		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector,FALSE,'Read','EntryId',TRUE) as $playListEntry){
 			$mediaEntryArr=explode($s,$playListEntry['Content']['Media']);
 			$mediaEntry=array('Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]);
 			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,TRUE);
