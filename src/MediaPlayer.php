@@ -51,10 +51,10 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 			if (empty($selector['Folder'])){
 				$html.=$this->getPlaylistIndex(array('selector'=>$selector));
 			} else {
-                $selector['disableAutoRefresh']=TRUE;
+            	$html.=$this->getVideoContainer(array('selector'=>$selector));
+			    $selector['disableAutoRefresh']=TRUE;
 				$settings=array('method'=>'getPlaylist','classWithNamespace'=>__CLASS__);
 				$html.=$this->oc['SourcePot\Datapool\Foundation\Container']->container('MediaPlayer settings container','generic',$selector,$settings,array('style'=>array('width'=>'auto','clear'=>'left')));
-				$html.=$this->getVideoContainer(array('selector'=>$selector));
 			}
 			$html.=$this->embedCss();
 			$html.=$this->embedJs();
@@ -120,7 +120,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 			}
 		}
         if (empty($firstArr)){return '';}
-		// medie player
+		// media player
 		$sourceArr=array('tag'=>'source','id'=>'player-source','src'=>$firstArr['src'],'type'=>$firstArr['type']);
 		$matrix['playerHtml']['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($sourceArr);
 		$videoArr=array('tag'=>'video','element-content'=>$matrix['playerHtml']['html'],'keep-element-content'=>TRUE,'class'=>'mediaplayer','id'=>'player','controls'=>TRUE);
