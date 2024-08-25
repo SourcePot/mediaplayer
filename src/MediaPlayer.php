@@ -26,10 +26,15 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$this->entryTable=strtolower(trim($table,'\\'));
 	}
 
-	public function init(array $oc){
-		$this->oc=$oc;
-		$this->entryTemplate=$oc['SourcePot\Datapool\Foundation\Database']->getEntryTemplateCreateTable($this->entryTable,__CLASS__);
-		$oc['SourcePot\Datapool\Foundation\Definitions']->addDefintion(__CLASS__,$this->definition);
+    Public function loadOc(array $oc):void
+    {
+        $this->oc=$oc;
+    }
+
+	public function init()
+	{
+		$this->entryTemplate=$this->oc['SourcePot\Datapool\Foundation\Database']->getEntryTemplateCreateTable($this->entryTable,__CLASS__);
+		$this->oc['SourcePot\Datapool\Foundation\Definitions']->addDefintion(__CLASS__,$this->definition);
 	}
 
 	public function getEntryTable(){
