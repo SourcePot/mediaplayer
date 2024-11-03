@@ -59,7 +59,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
             	$html.=$this->getVideoContainer(array('selector'=>$selector));
 			    $selector['disableAutoRefresh']=TRUE;
 				$settings=array('method'=>'getPlaylist','classWithNamespace'=>__CLASS__);
-				$html.=$this->oc['SourcePot\Datapool\Foundation\Container']->container('MediaPlayer settings container','generic',$selector,$settings,array('style'=>array('width'=>'auto','clear'=>'left')));
+				$html.=$this->oc['SourcePot\Datapool\Foundation\Container']->container('MediaPlayer play list','generic',$selector,$settings,array('style'=>array('clear'=>'none','width'=>'fit-content')));
 			}
 			$html.=$this->embedCss();
 			$html.=$this->embedJs();
@@ -147,8 +147,8 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$cntrWrapper=array('tag'=>'div','element-content'=>$matrix['cntrHtml']['html'],'keep-element-content'=>TRUE,'class'=>'play-btn-wrapper');
 		$matrix['cntrHtml']['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($cntrWrapper);
 		// finalizing
-		$html=$this->oc['SourcePot\Datapool\Tools\HTMLbuilder']->table(array('matrix'=>$matrix,'keep-element-content'=>TRUE,'caption'=>'Player (use play buttons below to start playing the whole play list)','hideKeys'=>TRUE,'hideHeader'=>TRUE));
-		$html=$this->oc['SourcePot\Datapool\Foundation\Element']->element(array('tag'=>'article','element-content'=>$html,'keep-element-content'=>TRUE));
+		$html=$this->oc['SourcePot\Datapool\Tools\HTMLbuilder']->table(array('matrix'=>$matrix,'keep-element-content'=>TRUE,'caption'=>'Use play buttons "&#10096;&#10096;" or "&#10097;&#10097;" to start the play list.','hideKeys'=>TRUE,'hideHeader'=>TRUE));
+		$html=$this->oc['SourcePot\Datapool\Foundation\Element']->element(array('tag'=>'article','element-content'=>$html,'keep-element-content'=>TRUE,'style'=>array('clear'=>'none','width'=>'fit-content')));
 		return $html;
 	}
 
