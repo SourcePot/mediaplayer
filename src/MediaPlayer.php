@@ -148,6 +148,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$matrix['cntrHtml']['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($cntrWrapper);
 		// finalizing
 		$html=$this->oc['SourcePot\Datapool\Tools\HTMLbuilder']->table(array('matrix'=>$matrix,'keep-element-content'=>TRUE,'caption'=>'Player (use play buttons below to start playing the whole play list)','hideKeys'=>TRUE,'hideHeader'=>TRUE));
+		$html=$this->oc['SourcePot\Datapool\Foundation\Element']->element(array('tag'=>'article','element-content'=>$html,'keep-element-content'=>TRUE));
 		return $html;
 	}
 
