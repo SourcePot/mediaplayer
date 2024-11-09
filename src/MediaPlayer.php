@@ -51,7 +51,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		} else {
 			$html='';
 			$this->getPlaylistIndexFormProcessing($arr);
-			$arr['toReplace']['{{explorer}}']=$this->oc['SourcePot\Datapool\Foundation\Explorer']->getExplorer(__CLASS__);
+			$arr['toReplace']['{{explorer}}']=$this->oc['SourcePot\Datapool\Foundation\Explorer']->getExplorer(__CLASS__,array('EntryId'=>FALSE));
 			$selector=$this->oc['SourcePot\Datapool\Tools\NetworkTools']->getPageState(__CLASS__);
 			if (empty($selector['Folder'])){
 				$html.=$this->getPlaylistIndex(array('selector'=>$selector));
