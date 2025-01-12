@@ -111,6 +111,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$mediaPlayerEntry=$this->mediaPlayerEntryTemplate($arr);
 		$selector=array('Source'=>$mediaPlayerEntry['Source'],'EntryId'=>'%'.$this->oc['SourcePot\Datapool\Foundation\Database']->getOrderedListKeyFromEntryId($mediaPlayerEntry['EntryId']));
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector,FALSE,'Read','EntryId',TRUE) as $playListEntry){
+			if (empty($playListEntry['Content']['Media'])){continue;}
 			$mediaEntryArr=explode($s,$playListEntry['Content']['Media']);
 			$mediaEntry=array('Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]);
 			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,TRUE);
@@ -169,6 +170,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$playLists=array();
 		$arr['selector']['Name']='Play list entry';
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($arr['selector']) as $playListEntry){
+			if (empty($playListEntry['Content']['Media'])){continue;}
 			$mediaEntryArr=explode($s,$playListEntry['Content']['Media']);
 			$mediaEntry=array('Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]);
 			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,TRUE);
