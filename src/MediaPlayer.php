@@ -14,7 +14,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	
 	private $oc;
 	
-	private $entryTable;
+	private $entryTable='';
 	private $entryTemplate=array('Read'=>array('index'=>FALSE,'type'=>'SMALLINT UNSIGNED','value'=>'ALL_MEMBER_R','Description'=>'This is the entry specific Read access setting. It is a bit-array.'),
 								 );
 
