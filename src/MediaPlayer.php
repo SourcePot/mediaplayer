@@ -167,7 +167,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	private function getPlaylistIndex($arr){
 		// get all playlist entries
 		$s=$this->oc['SourcePot\Datapool\Tools\MiscTools']->getSeparator();
-		$playLists=array();
+		$playLists=[];
 		$arr['selector']['Name']='Play list entry';
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($arr['selector']) as $playListEntry){
 			if (empty($playListEntry['Content']['Media'])){continue;}
