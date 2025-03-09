@@ -15,10 +15,9 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	private $oc;
 	
 	private $entryTable='';
-	private $entryTemplate=array('Read'=>array('index'=>FALSE,'type'=>'SMALLINT UNSIGNED','value'=>'ALL_MEMBER_R','Description'=>'This is the entry specific Read access setting. It is a bit-array.'),
-								 );
+	private $entryTemplate=['Read'=>['index'=>FALSE,'type'=>'SMALLINT UNSIGNED','value'=>'ALL_MEMBER_R','Description'=>'This is the entry specific Read access setting. It is a bit-array.'],];
 
-	public $definition=array('EntryId'=>array('@tag'=>'input','@type'=>'text','@default'=>'','@Write'=>0));
+	public $definition=['EntryId'=>['@tag'=>'input','@type'=>'text','@default'=>'','@Write'=>0]];
 
 	public function __construct($oc){
 		$this->oc=$oc;
@@ -47,19 +46,19 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 
 	public function run(array|bool $arr=TRUE):array{
 		if ($arr===TRUE){
-			return array('Category'=>'Apps','Emoji'=>'&#9835;','Label'=>'MediaPlayer','Read'=>'ALL_MEMBER_R','Class'=>__CLASS__);
+			return ['Category'=>'Apps','Emoji'=>'&#9835;','Label'=>'MediaPlayer','Read'=>'ALL_MEMBER_R','Class'=>__CLASS__];
 		} else {
 			$html='';
 			$this->getPlaylistIndexFormProcessing($arr);
-			$arr['toReplace']['{{explorer}}']=$this->oc['SourcePot\Datapool\Foundation\Explorer']->getExplorer(__CLASS__,array('EntryId'=>FALSE));
+			$arr['toReplace']['{{explorer}}']=$this->oc['SourcePot\Datapool\Foundation\Explorer']->getExplorer(__CLASS__,['EntryId'=>FALSE]);
 			$selector=$this->oc['SourcePot\Datapool\Tools\NetworkTools']->getPageState(__CLASS__);
 			if (empty($selector['Folder'])){
-				$html.=$this->getPlaylistIndex(array('selector'=>$selector));
+				$html.=$this->getPlaylistIndex(['selector'=>$selector]);
 			} else {
-            	$html.=$this->getVideoContainer(array('selector'=>$selector));
+            	$html.=$this->getVideoContainer(['selector'=>$selector]);
 			    $selector['disableAutoRefresh']=TRUE;
-				$settings=array('method'=>'getPlaylist','classWithNamespace'=>__CLASS__);
-				$html.=$this->oc['SourcePot\Datapool\Foundation\Container']->container('MediaPlayer play list','generic',$selector,$settings,array('style'=>array('clear'=>'none','width'=>'fit-content')));
+				$settings=['method'=>'getPlaylist','classWithNamespace'=>__CLASS__];
+				$html.=$this->oc['SourcePot\Datapool\Foundation\Container']->container('MediaPlayer play list','generic',$selector,$settings,['style'=>['clear'=>'none','width'=>'fit-content']]);
 			}
 			$html.=$this->embedCss();
 			$html.=$this->embedJs();
@@ -71,8 +70,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	public function getPlaylist($arr,$isDebugging=FALSE){
 		$debugArr=array('arr'=>$arr);
 		$mediaOptions=$this->getMediaOptions($arr);
-		$contentStructure=array('Media'=>array('method'=>'select','excontainer'=>TRUE,'value'=>'','options'=>$mediaOptions,'keep-element-content'=>TRUE),
-								);
+		$contentStructure=['Media'=>['method'=>'select','excontainer'=>TRUE,'value'=>'','options'=>$mediaOptions,'keep-element-content'=>TRUE],];
 		$arr['selector']=$this->mediaPlayerEntryTemplate($arr,FALSE);
 		$arr['contentStructure']=$contentStructure;
 		$arr['caption']='Playlist '.$arr['selector']['Group'].' &rarr; '.$arr['selector']['Folder'];
@@ -86,9 +84,9 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	}
 
 	public function getMediaOptions(){
-		$options=array(''=>'Please select...');
+		$options=[''=>'Please select...'];
 		$s=$this->oc['SourcePot\Datapool\Tools\MiscTools']->getSeparator();
-		$selector=array('Source'=>$this->oc['SourcePot\Datapool\GenericApps\Multimedia']->getEntryTable(),'Params'=>'%video%');
+		$selector=['Source'=>$this->oc['SourcePot\Datapool\GenericApps\Multimedia']->getEntryTable(),'Params'=>'%video%'];
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector) as $mediaEntry){
 			$key=$mediaEntry['Source'].$s.$mediaEntry['EntryId'];
 			$options[$key]=$mediaEntry['Name'].' &rarr; '.$mediaEntry['Folder'].' &rarr; '.$mediaEntry['Group'];
@@ -99,7 +97,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	private function mediaPlayerEntryTemplate($arr){
 		$entry=$arr['selector'];
 		$entry['Name']='Play list entry';
-		$entry=$this->oc['SourcePot\Datapool\Tools\MiscTools']->addEntryId($entry,array('Source','Group','Folder','Name'),'0','',FALSE);
+		$entry=$this->oc['SourcePot\Datapool\Tools\MiscTools']->addEntryId($entry,['Source','Group','Folder','Name'],'0','',FALSE);
 		return $entry;
 	}
 
@@ -107,13 +105,13 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$s=$this->oc['SourcePot\Datapool\Tools\MiscTools']->getSeparator();
 		$tmpDir=$this->oc['SourcePot\Datapool\Foundation\Filespace']->getTmpDir();
 		$firstArr=FALSE;
-		$matrix=array('playerHtml'=>array('html'=>''),'cntrHtml'=>array('html'=>''),'aHtml'=>array('html'=>''));
+		$matrix=['playerHtml'=>['html'=>''],'cntrHtml'=>['html'=>''],'aHtml'=>['html'=>'']];
 		$mediaPlayerEntry=$this->mediaPlayerEntryTemplate($arr);
-		$selector=array('Source'=>$mediaPlayerEntry['Source'],'EntryId'=>'%'.$this->oc['SourcePot\Datapool\Foundation\Database']->getOrderedListKeyFromEntryId($mediaPlayerEntry['EntryId']));
+		$selector=['Source'=>$mediaPlayerEntry['Source'],'EntryId'=>'%'.$this->oc['SourcePot\Datapool\Foundation\Database']->getOrderedListKeyFromEntryId($mediaPlayerEntry['EntryId'])];
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector,FALSE,'Read','EntryId',TRUE) as $playListEntry){
 			if (empty($playListEntry['Content']['Media'])){continue;}
 			$mediaEntryArr=explode($s,$playListEntry['Content']['Media']);
-			$mediaEntry=array('Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]);
+			$mediaEntry=['Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]];
 			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,TRUE);
 			$videoFile=$this->oc['SourcePot\Datapool\Foundation\Filespace']->selector2file($mediaEntry);
 			if (is_file($videoFile)){
@@ -121,35 +119,35 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 				copy($videoFile,$absFile);
 				$href=$this->oc['SourcePot\Datapool\Foundation\Filespace']->abs2rel($absFile);
 				if (empty($firstArr)){$firstArr=array('src'=>$href,'type'=>$mediaEntry['Params']['File']['MIME-Type']);}
-				$videoArr=array('tag'=>'a','href'=>$href,'type'=>$mediaEntry['Params']['File']['MIME-Type'],'element-content'=>$mediaEntry['Name'],'source'=>$mediaEntryArr[0],'entry-id'=>$mediaEntryArr[1],'class'=>'playlist','target'=>'_blank');
+				$videoArr=['tag'=>'a','href'=>$href,'type'=>$mediaEntry['Params']['File']['MIME-Type'],'element-content'=>$mediaEntry['Name'],'source'=>$mediaEntryArr[0],'entry-id'=>$mediaEntryArr[1],'class'=>'playlist','target'=>'_blank'];
 				$matrix['aHtml']['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element($videoArr);
 			}
 		}
         if (empty($firstArr)){return '';}
 		// media player
-		$sourceArr=array('tag'=>'source','id'=>'player-source','src'=>$firstArr['src'],'type'=>$firstArr['type']);
+		$sourceArr=['tag'=>'source','id'=>'player-source','src'=>$firstArr['src'],'type'=>$firstArr['type']];
 		$matrix['playerHtml']['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($sourceArr);
-		$videoArr=array('tag'=>'video','element-content'=>$matrix['playerHtml']['html'],'keep-element-content'=>TRUE,'class'=>'mediaplayer','id'=>'player','controls'=>TRUE);
+		$videoArr=['tag'=>'video','element-content'=>$matrix['playerHtml']['html'],'keep-element-content'=>TRUE,'class'=>'mediaplayer','id'=>'player','controls'=>TRUE];
 		$matrix['playerHtml']['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($videoArr);
 		// media player control
-		$playBtn=array('tag'=>'button','callingClass'=>__CLASS__,'callingFunction'=>__FUNCTION__,'class'=>'play','keep-element-content'=>TRUE);
+		$playBtn=['tag'=>'button','callingClass'=>__CLASS__,'callingFunction'=>__FUNCTION__,'class'=>'play','keep-element-content'=>TRUE];
 		$playBtn['element-content']='&#10096;&#10096;';
 		$playBtn['title']='Play whole list descending';
 		$playBtn['id']='play-descending';
-		$playBtn['key']=array($playBtn['id']);
+		$playBtn['key']=[$playBtn['id']];
 		$matrix['cntrHtml']['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element($playBtn);
-		$playInfo=array('tag'=>'p','class'=>'play','element-content'=>'...');
+		$playInfo=['tag'=>'p','class'=>'play','element-content'=>'...'];
 		$matrix['cntrHtml']['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element($playInfo);
 		$playBtn['element-content']='&#10097;&#10097;';
 		$playBtn['title']='Play whole list ascending';
 		$playBtn['id']='play-ascending';
-		$playBtn['key']=array($playBtn['id']);
+		$playBtn['key']=[$playBtn['id']];
 		$matrix['cntrHtml']['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element($playBtn);
-		$cntrWrapper=array('tag'=>'div','element-content'=>$matrix['cntrHtml']['html'],'keep-element-content'=>TRUE,'class'=>'play-btn-wrapper');
+		$cntrWrapper=['tag'=>'div','element-content'=>$matrix['cntrHtml']['html'],'keep-element-content'=>TRUE,'class'=>'play-btn-wrapper'];
 		$matrix['cntrHtml']['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($cntrWrapper);
 		// finalizing
-		$html=$this->oc['SourcePot\Datapool\Tools\HTMLbuilder']->table(array('matrix'=>$matrix,'keep-element-content'=>TRUE,'caption'=>'Use play buttons "&#10096;&#10096;" or "&#10097;&#10097;" to start the play list.','hideKeys'=>TRUE,'hideHeader'=>TRUE));
-		$html=$this->oc['SourcePot\Datapool\Foundation\Element']->element(array('tag'=>'article','element-content'=>$html,'keep-element-content'=>TRUE,'style'=>array('clear'=>'none','width'=>'fit-content')));
+		$html=$this->oc['SourcePot\Datapool\Tools\HTMLbuilder']->table(['matrix'=>$matrix,'keep-element-content'=>TRUE,'caption'=>'Use play buttons "&#10096;&#10096;" or "&#10097;&#10097;" to start the play list.','hideKeys'=>TRUE,'hideHeader'=>TRUE]);
+		$html=$this->oc['SourcePot\Datapool\Foundation\Element']->element(['tag'=>'article','element-content'=>$html,'keep-element-content'=>TRUE,'style'=>['clear'=>'none','width'=>'fit-content']]);
 		return $html;
 	}
 
@@ -172,9 +170,9 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($arr['selector']) as $playListEntry){
 			if (empty($playListEntry['Content']['Media'])){continue;}
 			$mediaEntryArr=explode($s,$playListEntry['Content']['Media']);
-			$mediaEntry=array('Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]);
+			$mediaEntry=['Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]];
 			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,TRUE);
-			$playLists[$playListEntry['Group']][$playListEntry['Folder']][$playListEntry['EntryId']]=$mediaEntry['Name'];
+			$playLists[$playListEntry['Group']][$playListEntry['Folder']][$playListEntry['EntryId']]=$mediaEntry['Name']??'';
 		}
 		// compile html
 		$arr['html']='';
@@ -184,10 +182,10 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		} else {
 			ksort($playLists);
 			foreach($playLists as $group=>$folders){
-				$arr['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element(array('tag'=>'h1','element-content'=>$group,'keep-element-content'=>TRUE));
+				$arr['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element(['tag'=>'h1','element-content'=>$group,'keep-element-content'=>TRUE]);
 				ksort($folders);
 				foreach($folders as $folder=>$entries){
-					$selectBtn=array('tag'=>'button','element-content'=>$folder,'key'=>array('select',$group,$folder),'callingClass'=>__CLASS__,'callingFunction'=>__FUNCTION__,'class'=>'playlist-select');
+					$selectBtn=['tag'=>'button','element-content'=>$folder,'key'=>['select',$group,$folder],'callingClass'=>__CLASS__,'callingFunction'=>__FUNCTION__,'class'=>'playlist-select'];
 					$arr['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element($selectBtn);
 					ksort($entries);
 					$folderHtml='';
