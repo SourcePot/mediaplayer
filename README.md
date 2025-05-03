@@ -1,7 +1,7 @@
 # MediaPlayer
 The MediaPlayer app adds a video playlist feature to the Datapool web application.
 The app is added as a web page within the category *Apps* of Datapool.
-The MediaPlayer app is the first app to implement the Datapool *App interface*, and in a way this was the motivation for creating this app.
+The MediaPlayer app was the first app to implement the Datapool *App interface*, and in a way this was the motivation for creating this app.
 
 ## The user interface (web page)
 After a playlist was created whithin the selected Group and Folder it can be played in a loop in descending or ascending order.
