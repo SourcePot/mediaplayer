@@ -68,7 +68,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	}
 
 	public function getPlaylist($arr,$isDebugging=FALSE){
-		$debugArr=array('arr'=>$arr);
+		$debugArr=['arr'=>$arr];
 		$mediaOptions=$this->getMediaOptions($arr);
 		$contentStructure=['Media'=>['method'=>'select','excontainer'=>TRUE,'value'=>'','options'=>$mediaOptions,'keep-element-content'=>TRUE],];
 		$arr['selector']=$this->mediaPlayerEntryTemplate($arr,FALSE);
@@ -118,7 +118,9 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 				$absFile=$tmpDir.$mediaEntry['EntryId'].'.'.$mediaEntry['Params']['File']['Extension'];
 				copy($videoFile,$absFile);
 				$href=$this->oc['SourcePot\Datapool\Foundation\Filespace']->abs2rel($absFile);
-				if (empty($firstArr)){$firstArr=array('src'=>$href,'type'=>$mediaEntry['Params']['File']['MIME-Type']);}
+				if (empty($firstArr)){
+					$firstArr=['src'=>$href,'type'=>$mediaEntry['Params']['File']['MIME-Type']];
+				}
 				$videoArr=['tag'=>'a','href'=>$href,'type'=>$mediaEntry['Params']['File']['MIME-Type'],'element-content'=>$mediaEntry['Name'],'source'=>$mediaEntryArr[0],'entry-id'=>$mediaEntryArr[1],'class'=>'playlist','target'=>'_blank'];
 				$matrix['aHtml']['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element($videoArr);
 			}
@@ -178,7 +180,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$arr['html']='';
 		if (empty($playLists)){
 			$text='No playlists could be found.<br/>Either there are no lists yet or the access rights are not sufficient.';
-			$arr['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element(array('tag'=>'p','element-content'=>$text,'keep-element-content'=>TRUE,'class'=>'playlist'));
+			$arr['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element(['tag'=>'p','element-content'=>$text,'keep-element-content'=>TRUE,'class'=>'playlist']);
 		} else {
 			ksort($playLists);
 			foreach($playLists as $group=>$folders){
@@ -190,14 +192,14 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 					ksort($entries);
 					$folderHtml='';
 					foreach($entries as $entryId=>$name){
-						$entryArr=array('tag'=>'li','element-content'=>$name);
+						$entryArr=['tag'=>'li','element-content'=>$name];
 						$folderHtml.=$this->oc['SourcePot\Datapool\Foundation\Element']->element($entryArr);
 					}
-					$arr['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element(array('tag'=>'ol','element-content'=>$folderHtml,'keep-element-content'=>TRUE,'class'=>'playlist'));
+					$arr['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element(['tag'=>'ol','element-content'=>$folderHtml,'keep-element-content'=>TRUE,'class'=>'playlist']);
 				}
 			}
 		}
-		$articleArr=array('tag'=>'article','element-content'=>$arr['html'],'keep-element-content'=>TRUE);
+		$articleArr=['tag'=>'article','element-content'=>$arr['html'],'keep-element-content'=>TRUE];
 		$arr['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($articleArr);
 		return $arr['html'];
 	}
