@@ -12,7 +12,8 @@ namespace SourcePot\MediaPlayer;
 
 class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	
-	private $oc;
+	public const ONEDIMSEPARATOR='|[]|';
+    private $oc;
 	
 	private $entryTable='';
 	private $entryTemplate=['Read'=>['index'=>FALSE,'type'=>'SMALLINT UNSIGNED','value'=>'ALL_MEMBER_R','Description'=>'This is the entry specific Read access setting. It is a bit-array.'],];
@@ -85,10 +86,9 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 
 	public function getMediaOptions(){
 		$options=[''=>'Please select...'];
-		$s=$this->oc['SourcePot\Datapool\Tools\MiscTools']->getSeparator();
 		$selector=['Source'=>$this->oc['SourcePot\Datapool\GenericApps\Multimedia']->getEntryTable(),'Params'=>'%video%'];
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector) as $mediaEntry){
-			$key=$mediaEntry['Source'].$s.$mediaEntry['EntryId'];
+			$key=$mediaEntry['Source'].(self::ONEDIMSEPARATOR).$mediaEntry['EntryId'];
 			$options[$key]=$mediaEntry['Name'].' &rarr; '.$mediaEntry['Folder'].' &rarr; '.$mediaEntry['Group'];
 		}
 		return $options;
@@ -102,7 +102,6 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	}
 
 	private function getVideoContainer($arr){
-		$s=$this->oc['SourcePot\Datapool\Tools\MiscTools']->getSeparator();
 		$tmpDir=$this->oc['SourcePot\Datapool\Foundation\Filespace']->getTmpDir();
 		$firstArr=FALSE;
 		$matrix=['playerHtml'=>['html'=>''],'cntrHtml'=>['html'=>''],'aHtml'=>['html'=>'']];
@@ -110,7 +109,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		$selector=['Source'=>$mediaPlayerEntry['Source'],'EntryId'=>'%'.$this->oc['SourcePot\Datapool\Foundation\Database']->getOrderedListKeyFromEntryId($mediaPlayerEntry['EntryId'])];
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector,FALSE,'Read','EntryId',TRUE) as $playListEntry){
 			if (empty($playListEntry['Content']['Media'])){continue;}
-			$mediaEntryArr=explode($s,$playListEntry['Content']['Media']??'');
+			$mediaEntryArr=explode(self::ONEDIMSEPARATOR,$playListEntry['Content']['Media']??'');
 			$mediaEntry=['Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]];
 			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,TRUE);
 			$videoFile=$this->oc['SourcePot\Datapool\Foundation\Filespace']->selector2file($mediaEntry);
@@ -166,12 +165,11 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	
 	private function getPlaylistIndex($arr){
 		// get all playlist entries
-		$s=$this->oc['SourcePot\Datapool\Tools\MiscTools']->getSeparator();
 		$playLists=[];
 		$arr['selector']['Name']='Play list entry';
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($arr['selector']) as $playListEntry){
 			if (empty($playListEntry['Content']['Media'])){continue;}
-			$mediaEntryArr=explode($s,$playListEntry['Content']['Media']);
+			$mediaEntryArr=explode(self::ONEDIMSEPARATOR,$playListEntry['Content']['Media']);
 			$mediaEntry=['Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]];
 			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,TRUE);
 			$playLists[$playListEntry['Group']][$playListEntry['Folder']][$playListEntry['EntryId']]=$mediaEntry['Name']??'';
