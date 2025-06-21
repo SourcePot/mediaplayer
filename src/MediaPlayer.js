@@ -13,7 +13,7 @@ jQuery(document).ready(function(){
 		e.preventDefault();
 		jQuery('button.play').css('backgroundColor','');
 		playOrder=jQuery(this).attr('id');
-		jQuery(this).css('backgroundColor','#faa');
+		jQuery(this).css('backgroundColor','#fcc');
 		loadNext();
 	});
 	
