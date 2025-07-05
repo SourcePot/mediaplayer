@@ -16,9 +16,18 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
     private $oc;
 	
 	private $entryTable='';
-	private $entryTemplate=['Read'=>['index'=>FALSE,'type'=>'SMALLINT UNSIGNED','value'=>'ALL_MEMBER_R','Description'=>'This is the entry specific Read access setting. It is a bit-array.'],];
+	private $entryTemplate=[
+		'Read'=>[
+			'index'=>FALSE,
+			'type'=>'SMALLINT UNSIGNED',
+			'value'=>'ALL_MEMBER_R',
+			'Description'=>'This is the entry specific Read access setting. It is a bit-array.'
+			],
+		];
 
-	public $definition=['EntryId'=>['@tag'=>'input','@type'=>'text','@default'=>'','@Write'=>0]];
+	public $definition=[
+		'EntryId'=>['@tag'=>'input','@type'=>'text','@default'=>'','@Write'=>0]
+		];
 
 	public function __construct($oc){
 		$this->oc=$oc;
@@ -51,7 +60,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		} else {
 			$html='';
 			$this->getPlaylistIndexFormProcessing($arr);
-			$arr['toReplace']['{{explorer}}']=$this->oc['SourcePot\Datapool\Foundation\Explorer']->getExplorer(__CLASS__,['EntryId'=>FALSE]);
+			$arr['toReplace']['{{explorer}}']=$this->oc['SourcePot\Datapool\Foundation\Explorer']->getExplorer(__CLASS__,['EntryId'=>FALSE,'miscToolsEntry'=>FALSE,'settingsEntry'=>FALSE,'setRightsEntry'=>FALSE,'sendEmail'=>FALSE]);
 			$selector=$this->oc['SourcePot\Datapool\Tools\NetworkTools']->getPageState(__CLASS__);
 			if (empty($selector['Folder'])){
 				$html.=$this->getPlaylistIndex(['selector'=>$selector]);
