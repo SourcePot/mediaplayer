@@ -45,6 +45,7 @@ a.playlist{
 	display:none;
 }
 video.mediaplayer{
-    max-width:480px;
+	width:480px;
+    max-width:100%;
 	margin:0;
 }
