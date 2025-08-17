@@ -70,8 +70,8 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 				$settings=['method'=>'getPlaylist','classWithNamespace'=>__CLASS__];
 				$html.=$this->oc['SourcePot\Datapool\Foundation\Container']->container('MediaPlayer play list','generic',$selector,$settings,['style'=>['clear'=>'none','width'=>'fit-content','border'=>'none']]);
 			}
-			$html.=$this->embedCss();
-			$html.=$this->embedJs();
+			$html.=$this->embed('css');
+			$html.=$this->embed('js');
 			$arr['toReplace']['{{content}}']=$html;
 			return $arr;
 		}
@@ -211,18 +211,12 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		return $arr['html'];
 	}
 
-	private function embedJs(){
+	private function embed($extension='js'){
 		$classWithNamespaceComps=explode('\\',__CLASS__);
 		$class=array_pop($classWithNamespaceComps);
-		$jsFile=__DIR__.'/'.$class.'.js';
-		return '<script>'.file_get_contents($jsFile).'</script>';
-	}
-
-	private function embedCss(){
-		$classWithNamespaceComps=explode('\\',__CLASS__);
-		$class=array_pop($classWithNamespaceComps);
-		$cssFile=__DIR__.'/'.$class.'.css';
-		return '<style>'.file_get_contents($cssFile).'</style>';
+		$elArr=['tag'=>(($extension==='js')?'script':'style'),'keep-element-content'=>TRUE];
+		$elArr['element-content']=file_get_contents(__DIR__.'/'.$class.'.'.$extension);
+		return PHP_EOL.$this->oc['SourcePot\Datapool\Foundation\Element']->element($elArr).PHP_EOL;
 	}
 
 }
