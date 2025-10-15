@@ -13,8 +13,8 @@ Videos can be skipped by clicking the same play button again.
 ## How does it work?
 Datapool stores videos as well as other media as entries in the database table *multimedia*.
 The video files themself are stored in the *filespace* folder.
-Any video from *multimedia* can be linked to a MediaPlayer playlist entry.
-The available videos are displayed in a list from which they can be selected.
+Any video entry lacated in table *multimedia* can be linked to MediaPlayer playlist entries.
+The available videos are displayed as a drop down list from which they can be selected.
 
 Playlists are organised within Groups and Folders.
 Technically a playlist is a collection of entries within the same Group and Folder with each playlist entry pointing to a video entry.
@@ -32,5 +32,7 @@ The class MediaPlayer.php will be instantiated by Datapool\'s Root.php.
 Using the Datapool web application (when MediaPlayer is selected) Root.php will call the *run* method of *SourcePot\MediaPlayer\MediaPlayer*.
 The run method creates the html code enveloped by the web page\'s main-tags.
 The file content of MediaPlayer.js and MediaPlayer.css files is loaded into the webpage as inline css and js code.
+This is necessary because these files are not located in the www-directory. 
+When installed they will be located in a vendor subdirectory.
 This is necessary because these files are not located in the www-directory. 
 When installed they will be located in a vendor subdirectory.
