@@ -12,7 +12,11 @@ namespace SourcePot\MediaPlayer;
 
 class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	
-	public const ONEDIMSEPARATOR='|[]|';
+	private const ONEDIMSEPARATOR='|[]|';
+	private const NO_PLAYLISTS='No playlists could be found.<br/>Either there are no lists yet, or you do not have sufficient access rights.';
+	private const NO_ENTRY='No entries yet..';
+	private const NO_AVAILABLE_ENTRY='Access restricted...';
+
     private $oc;
 	
 	private $entryTable='';
@@ -22,12 +26,12 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 			'type'=>'SMALLINT UNSIGNED',
 			'value'=>'ALL_MEMBER_R',
 			'Description'=>'This is the entry specific Read access setting. It is a bit-array.'
-			],
-		];
+		],
+	];
 
 	public $definition=[
 		'EntryId'=>['@tag'=>'input','@type'=>'text','@default'=>'','@Write'=>0]
-		];
+	];
 
 	public function __construct($oc){
 		$this->oc=$oc;
@@ -113,14 +117,17 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 	private function getVideoContainer($arr){
 		$tmpDir=$this->oc['SourcePot\Datapool\Foundation\Filespace']->getTmpDir();
 		$firstArr=FALSE;
+		$entryExists=FALSE;
 		$matrix=['playerHtml'=>['html'=>''],'cntrHtml'=>['html'=>''],'aHtml'=>['html'=>'']];
 		$mediaPlayerEntry=$this->mediaPlayerEntryTemplate($arr);
 		$selector=['Source'=>$mediaPlayerEntry['Source'],'EntryId'=>'%'.$this->oc['SourcePot\Datapool\Foundation\Database']->getOrderedListKeyFromEntryId($mediaPlayerEntry['EntryId'])];
 		foreach($this->oc['SourcePot\Datapool\Foundation\Database']->entryIterator($selector,FALSE,'Read','EntryId',TRUE) as $playListEntry){
 			if (empty($playListEntry['Content']['Media'])){continue;}
+			$entryExists=TRUE;
 			$mediaEntryArr=explode(self::ONEDIMSEPARATOR,$playListEntry['Content']['Media']??'');
 			$mediaEntry=['Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]];
-			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,TRUE);
+			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,FALSE);
+			if (empty($mediaEntry)){continue;}
 			$videoFile=$this->oc['SourcePot\Datapool\Foundation\Filespace']->selector2file($mediaEntry);
 			if (is_file($videoFile)){
 				$absFile=$tmpDir.$mediaEntry['EntryId'].'.'.$mediaEntry['Params']['File']['Extension'];
@@ -133,7 +140,13 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 				$matrix['aHtml']['html'].=$this->oc['SourcePot\Datapool\Foundation\Element']->element($videoArr);
 			}
 		}
-        if (empty($firstArr)){return '';}
+        if (empty($firstArr)){
+			if ($entryExists){
+				return $this->oc['SourcePot\Datapool\Foundation\Element']->element(['tag'=>'p','element-content'=>self::NO_AVAILABLE_ENTRY,'keep-element-content'=>TRUE,'class'=>'playlist']);
+			} else {
+				return $this->oc['SourcePot\Datapool\Foundation\Element']->element(['tag'=>'p','element-content'=>self::NO_ENTRY,'keep-element-content'=>TRUE,'class'=>'playlist']);
+			}
+		}
 		// media player
 		$sourceArr=['tag'=>'source','id'=>'player-source','src'=>$firstArr['src'],'type'=>$firstArr['type']];
 		$matrix['playerHtml']['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element($sourceArr);
@@ -186,8 +199,7 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 		// compile html
 		$arr['html']='';
 		if (empty($playLists)){
-			$text='No playlists could be found.<br/>Either there are no lists yet or the access rights are not sufficient.';
-			$arr['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element(['tag'=>'p','element-content'=>$text,'keep-element-content'=>TRUE,'class'=>'playlist']);
+			$arr['html']=$this->oc['SourcePot\Datapool\Foundation\Element']->element(['tag'=>'p','element-content'=>self::NO_PLAYLISTS,'keep-element-content'=>TRUE,'class'=>'playlist']);
 		} else {
 			ksort($playLists);
 			foreach($playLists as $group=>$folders){
