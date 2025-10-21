@@ -193,7 +193,8 @@ class MediaPlayer implements \SourcePot\Datapool\Interfaces\App{
 			if (empty($playListEntry['Content']['Media'])){continue;}
 			$mediaEntryArr=explode(self::ONEDIMSEPARATOR,$playListEntry['Content']['Media']);
 			$mediaEntry=['Source'=>$mediaEntryArr[0],'EntryId'=>$mediaEntryArr[1]];
-			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,TRUE);
+			$mediaEntry=$this->oc['SourcePot\Datapool\Foundation\Database']->entryById($mediaEntry,FALSE);
+			if (empty($mediaEntry)){continue;}
 			$playLists[$playListEntry['Group']][$playListEntry['Folder']][$playListEntry['EntryId']]=$mediaEntry['Name']??'';
 		}
 		// compile html
