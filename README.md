@@ -29,7 +29,6 @@ When a video is finished, a new video is loaded into the player.
 
 ## Background information
 The class MediaPlayer.php is instantiated by Datapool\'s SourcePot\DatapoolRoot-class.
-Using the Datapool web application (when the MediaPlayer-app is selected) SourcePot\DatapoolRoot will call the *run* method of *SourcePot\MediaPlayer\MediaPlayer*.
-The run method creates the html code enveloped by the web page\'s main-tags.
+When the Datapool web application is loaded into the web browser and if the MediaPlayer-app is selected, SourcePot\DatapoolRoot-class will call the *run* method of *SourcePot\MediaPlayer\MediaPlayer*. The run method creates the html code enveloped by the web page\'s main-tags.
 The file content of MediaPlayer.js and MediaPlayer.css files is loaded into the webpage as inline css and js code.
 This is necessary, because these files are located in the vendor-directory rather than the www-directory of the Datapool web application.
