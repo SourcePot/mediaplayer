@@ -11,9 +11,9 @@ jQuery(document).ready(function(){
 
 	jQuery('button.play').on('click',function(e){
 		e.preventDefault();
-		jQuery('button.play').css('backgroundColor','');
+		jQuery('button.play').css('border','2px solid #aaa');
 		playOrder=jQuery(this).attr('id');
-		jQuery(this).css('backgroundColor','#fcc');
+		jQuery(this).css('border','2px solid #00f');
 		loadNext();
 	});
 	
